@@ -12,4 +12,4 @@ amba-password 16
 
 ## Build
 
-Use `build.ps1` to build .exe and dotnet tool
+Use [build.ps1](build.ps1]) to build .exe and dotnet tool
