@@ -1,0 +1,17 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "password-generate-16": {
+      "commandName": "Project",
+      "commandLineArgs": "16",
+      "environmentVariables": {
+      }    
+    },
+    "password-generate-16-no-symbols": {
+      "commandName": "Project",
+      "commandLineArgs": "16 -ns",
+      "environmentVariables": {
+      }
+    }
+  }
+}
