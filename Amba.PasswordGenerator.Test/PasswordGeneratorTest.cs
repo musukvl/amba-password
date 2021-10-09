@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
+using McMaster.Extensions.CommandLineUtils;
 using NUnit.Framework;
 
 namespace Amba.PasswordGenerator.Test
@@ -18,7 +19,7 @@ namespace Amba.PasswordGenerator.Test
         [TestCase(16)]
         public void BasicScenario(int length)
         {
-            var passwordGenerator = new PasswordGeneratorService();
+            var passwordGenerator = new PasswordGeneratorCommand(PhysicalConsole.Singleton);
             var result = passwordGenerator.Generate(length);
             
             TestContext.Out.WriteLine($"Generated password {result}" );
@@ -33,7 +34,7 @@ namespace Amba.PasswordGenerator.Test
         [TestCase(16)]
         public void GenerateNoSymbols(int length)
         {
-            var passwordGenerator = new PasswordGeneratorService();
+            var passwordGenerator = new PasswordGeneratorCommand(PhysicalConsole.Singleton);
             var result = passwordGenerator.Generate(length, addSymbols: false);
             
             TestContext.Out.WriteLine($"Generated password {result}" );
@@ -47,7 +48,7 @@ namespace Amba.PasswordGenerator.Test
         [TestCase(1)] 
         public void EdgeCase(int length)
         {
-            var passwordGenerator = new PasswordGeneratorService();
+            var passwordGenerator = new PasswordGeneratorCommand(PhysicalConsole.Singleton);
             var result = passwordGenerator.Generate(length);
             
             TestContext.Out.WriteLine($"Generated password {result}" );

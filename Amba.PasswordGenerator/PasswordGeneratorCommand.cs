@@ -1,15 +1,38 @@
 using System;
 using System.Text;
+using McMaster.Extensions.CommandLineUtils;
 
 namespace Amba.PasswordGenerator
 {
-    public class PasswordGeneratorService
+    [Command(Name = "generate-password", Description = "Generates random passwords with guarantied presence of letters, numbers and symbols.")]
+    [HelpOption("--help|-h")]
+    public class PasswordGeneratorCommand
     {
+        [Argument(1,"length", "Password length")]
+        public int Length { get; } = 8;
+        
+        [Option("--no-symbols|-ns", "Not use symbols in password", CommandOptionType.NoValue)]
+        public bool NotUseSymbols { get; } = false;
+        
+        
+        private readonly IConsole _console;
         private static readonly char[] Numerics =  "01234567890".ToCharArray();
         private static readonly char[] Letters =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
         private static readonly char[] Symbols =  "-_{}@!()[]|'".ToCharArray();
 
         private Random _random = new Random();
+        
+        public PasswordGeneratorCommand(IConsole console)
+        {
+            _console = console;
+        }
+        
+        public int OnExecute()
+        {
+            var result = Generate(Length, !NotUseSymbols);
+            _console.WriteLine(result);
+            return 0;
+        }
         
         public string Generate(int length, bool addSymbols = true)
         {

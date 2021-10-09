@@ -5,21 +5,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Amba.PasswordGenerator
 {
-    [Command(Name = "generate-password", Description = "Generates random passwords with guarantied presence of letters, numbers and symbols.")]
-    [HelpOption("--help|-h")]
+    
     class Program
     {
-        private readonly PasswordGeneratorService _passwordGeneratorService;
+        private readonly PasswordGeneratorCommand _passwordGeneratorCommand;
         private readonly IConsole _console;
 
         public static int Main(string[] args)
         {
             var services = new ServiceCollection()
-                .AddSingleton<PasswordGeneratorService>()
                 .AddSingleton<IConsole>(PhysicalConsole.Singleton)
                 .BuildServiceProvider();
 
-            var app = new CommandLineApplication<Program>();
+            var app = new CommandLineApplication<PasswordGeneratorCommand>();
             app.Conventions
                 .UseDefaultConventions()
                 .UseConstructorInjection(services);
@@ -31,23 +29,10 @@ namespace Amba.PasswordGenerator
             return app.Execute(args);
         }
 
-        public Program(PasswordGeneratorService passwordGeneratorService, IConsole console)
+        public Program(PasswordGeneratorCommand passwordGeneratorCommand, IConsole console)
         {
-            _passwordGeneratorService = passwordGeneratorService;
+            _passwordGeneratorCommand = passwordGeneratorCommand;
             _console = console;
-        }
-
-        [Argument(1,"length", "Password length")]
-        public int Length { get; } = 8;
-        
-        [Option("--no-symbols|-ns", "Not use symbols in password", CommandOptionType.NoValue)]
-        public bool NotUseSymbols { get; } = false;
-
-        public int OnExecute()
-        {
-            var result = _passwordGeneratorService.Generate(Length, !NotUseSymbols);
-            _console.WriteLine(result);
-            return 0;
         }
     }
 }
