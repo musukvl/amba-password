@@ -6,7 +6,8 @@ Run `amba-password --help` for details.
 Usage example:
 
 ```
-amba-password 16
+> amba-password.exe 16 -ns
+cJYtJR1xApyc7RF5
 ```
 
 
